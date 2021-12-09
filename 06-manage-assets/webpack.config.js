@@ -2,6 +2,9 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin')
+const toml = require('toml')
+const yaml = require('yamljs')
+const json5 = require('json5')
 
 module.exports = {
   entry: './src/index.js',
@@ -18,8 +21,8 @@ module.exports = {
     assetModuleFilename: 'images/[contenthash][ext]',
   },
 
-  // mode: 'development',
-  mode: 'production',
+  mode: 'development',
+  // mode: 'production',
 
   //在开发模式下追踪代码
   devtool: 'inline-source-map',
@@ -80,12 +83,49 @@ module.exports = {
         // use: ['style-loader', 'css-loader', 'less-loader'],
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader'],
       },
+
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        type: 'asset/resource'
+      },
+
+      {
+        test: /\.(csv|tsv)$/,
+        use: ['csv-loader']
+      },
+
+      {
+        test: /\.xml$/,
+        use: ['xml-loader']
+      },
+
+      {
+        test: /\.toml$/,
+        type: 'json',
+        parser: {
+          parse: toml.parse
+        }
+      },
+      {
+        test: /\.yaml$/,
+        type: 'json',
+        parser: {
+          parse: yaml.parse
+        }
+      },
+      {
+        test: /\.json5$/,
+        type: 'json',
+        parser: {
+          parse: json5.parse
+        }
+      },
     ],
   },
 
   //优化配置
-  optimization:{
-    minimizer:[
+  optimization: {
+    minimizer: [
       new CssMinimizerWebpackPlugin(),
     ]
   }
