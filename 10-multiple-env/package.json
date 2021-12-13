@@ -4,8 +4,8 @@
   "description": "这是千千万万万万千千个日夜，是我对你说不尽的思念。",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve -c ./config/webpack.config.dev.js",
-    "build": "webpack -c ./config/webpack.config.prod.js"
+    "start": "webpack serve -c ./config/webpack.config.js --env development",
+    "build": "webpack -c ./config/webpack.config.js --env production"
   },
   "repository": {
     "type": "git",
